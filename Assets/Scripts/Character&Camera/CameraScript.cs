@@ -4,17 +4,15 @@ public class CameraScript : MonoBehaviour
 {
     public Vector3 GetCameraForward()
     {
-        var forwardDir = transform.forward;
+        Vector3 forwardDir = transform.forward;
         forwardDir.y = 0;
-        forwardDir.Normalize();
-        return forwardDir;
+        return forwardDir.normalized;
     }
 
     public Vector3 GetCameraRight()
     {
-        var rightDir = transform.right;
+        Vector3 rightDir = transform.right;
         rightDir.y = 0;
-        rightDir.Normalize();
-        return rightDir;
+        return rightDir.normalized;
     }
 }

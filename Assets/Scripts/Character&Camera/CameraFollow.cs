@@ -1,40 +1,23 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     [Header("Game Objects & Data")]
+    [SerializeField] private Transform player;
+    [SerializeField] private Vector3 offset = new Vector3(0, 5, -5);
+    [SerializeField] private float followSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 5f;
 
-    [SerializeField]
-    private Transform _playerPosition;
-    [SerializeField]
-    private Vector3 _offset = new Vector3(0, 0, 0);
-    [SerializeField]
-    private float _cameraFollowSpeed = 5f;
-
-
-    //Target Location
-
-    private Vector3 _targetPosition;
-
-    private void Start()
+    private void LateUpdate()
     {
-        _offset = transform.position - _playerPosition.position;
-    }
+        if (player == null) return;
 
-    private void FixedUpdate()
-    {
-        if (_playerPosition.position != null)
-        {
+        // Poziție actualizată
+        Vector3 targetPosition = player.position + offset;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
 
-            _targetPosition = _playerPosition.position + _playerPosition.forward * _offset.z + _playerPosition.up * _offset.y + _playerPosition.right * _offset.x;
-
-
-            transform.position = Vector3.Lerp(transform.position, _targetPosition, _cameraFollowSpeed * Time.fixedDeltaTime);
-
-        }
-        else
-        {
-            Debug.Log("_playerPosition = null");
-        }
+        // Rotire lină către player
+        Quaternion targetRotation = Quaternion.LookRotation(player.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 }
