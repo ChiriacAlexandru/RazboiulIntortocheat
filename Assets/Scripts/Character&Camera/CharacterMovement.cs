@@ -63,29 +63,25 @@ public class CharacterMovement : MonoBehaviour
 
         // Animatii
 
-        if (moveDirection.magnitude != 0f)
+        // Animații
+        if (moveDirection.magnitude > 0.1f) // Folosește un prag mic pentru a evita erori de floating-point
         {
-            animator.SetBool("IsWalking", true);
-
+            if (isRunning)
+            {
+                animator.SetBool("IsRunning", true);
+                animator.SetBool("IsWalking", false); // Asigură-te că nu stă în mers când aleargă
+            }
+            else
+            {
+                animator.SetBool("IsWalking", true);
+                animator.SetBool("IsRunning", false); // Asigură-te că nu aleargă când merge
+            }
         }
         else
         {
+            // Dacă jucătorul nu se mișcă, dezactivează ambele animații
             animator.SetBool("IsWalking", false);
-
-        }
-
-
-        if (moveDirection.magnitude != 0f & isRunning == true)
-        {
-            animator.SetBool("IsRunning", true);
-
-            animator.SetBool("IsWalking", false);
-
-        }
-        else
-        {
             animator.SetBool("IsRunning", false);
-
         }
     }
 }
