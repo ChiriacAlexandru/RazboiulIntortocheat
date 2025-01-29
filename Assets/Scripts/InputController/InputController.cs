@@ -7,7 +7,7 @@ public class InputController : MonoBehaviour
 
     public static InputController instance;
     public Vector2 moveDirection {  get; private set; }
-
+    public bool sprintMove {  get; private set; }
 
     private InputSystem_Actions _inputController;
 
@@ -31,7 +31,8 @@ public class InputController : MonoBehaviour
         _inputController.Enable();
         _inputController.Player.Move.performed += PlayerMovePerfomed;
         _inputController.Player.Move.canceled += PlayerMoveCanceled;
-
+        _inputController.Player.Sprint.performed += SprinMovePerfomed;
+        _inputController.Player.Sprint.canceled += SprinMoveCanceled;
 
     }
 
@@ -40,7 +41,8 @@ public class InputController : MonoBehaviour
 
         _inputController.Player.Move.performed -= PlayerMovePerfomed;
         _inputController.Player.Move.canceled -= PlayerMoveCanceled;
-
+        _inputController.Player.Sprint.performed -= SprinMovePerfomed;
+        _inputController.Player.Sprint.canceled -= SprinMoveCanceled;
         _inputController.Disable();
     }
 
@@ -52,4 +54,14 @@ public class InputController : MonoBehaviour
     {
         moveDirection = Vector2.zero;
     }
+    private void SprinMovePerfomed(InputAction.CallbackContext context)
+    {
+        sprintMove = true;
+    }
+    private void SprinMoveCanceled(InputAction.CallbackContext context)
+    {
+        sprintMove = false;
+    }
+
+
 }

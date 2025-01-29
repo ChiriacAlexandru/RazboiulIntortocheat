@@ -2,22 +2,26 @@
 
 public class CameraFollow : MonoBehaviour
 {
-    [Header("Game Objects & Data")]
-    [SerializeField] private Transform player;
-    [SerializeField] private Vector3 offset = new Vector3(0, 5, -5);
-    [SerializeField] private float followSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 5f;
+    [Header("Setări")]
+    [SerializeField] private Transform _playerPosition;
+    [SerializeField] private Vector3 _offset = new Vector3(0, 10, -10); // Offset pentru vedere top-down
+    [SerializeField] private float _cameraFollowSpeed = 5f;
 
     private void LateUpdate()
     {
-        if (player == null) return;
+        if (_playerPosition == null)
+        {
+            Debug.LogWarning("Player position is not set!");
+            return;
+        }
 
-        // Poziție actualizată
-        Vector3 targetPosition = player.position + offset;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+        // Calculează poziția țintă a camerei
+        Vector3 targetPosition = _playerPosition.position + _offset;
 
-        // Rotire lină către player
-        Quaternion targetRotation = Quaternion.LookRotation(player.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        // Interpolează poziția camerei pentru a urmări jucătorul
+        transform.position = Vector3.Lerp(transform.position, targetPosition, _cameraFollowSpeed * Time.deltaTime);
+
+        // Menține camera orientată spre jucător
+        transform.LookAt(_playerPosition);
     }
 }

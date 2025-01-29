@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -7,20 +6,25 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform visualTransform;
     [SerializeField] private CameraScript cameraScript;
+    [SerializeField] private Animator animator;
 
     [Header("Valori")]
-    [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float runSpeed = 8f;
-    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float walkSpeed = 5;
+    [SerializeField] private float runSpeed = 8;
+    [SerializeField] private float rotationSpeed = 10; // Rotație mai rapidă
 
     private bool isRunning;
-    private Vector3 moveDirection;
 
-    private void Start()
+    private void Awake()
     {
         if (cameraScript == null)
         {
             cameraScript = FindAnyObjectByType<CameraScript>();
+        }
+
+        if (animator == null)
+        {
+            Debug.Log("Mesh animator != exist");
         }
     }
 
@@ -31,17 +35,57 @@ public class CharacterMovement : MonoBehaviour
 
     private void MoveController()
     {
-        Vector2 inputVector = InputController.instance.moveDirection;
-        if (inputVector == Vector2.zero) return;
+        Vector2 moveInput = InputController.instance.moveDirection;
+        bool sprintMove = InputController.instance.sprintMove;
+        isRunning = sprintMove;
 
+        // Calculează direcția de mișcare relativă la camera
         Vector3 forward = cameraScript.GetCameraForward();
         Vector3 right = cameraScript.GetCameraRight();
+        Vector3 moveDirection = (forward * moveInput.y + right * moveInput.x).normalized;
 
-        moveDirection = (forward * inputVector.y + right * inputVector.x).normalized;
-        rb.MovePosition(rb.position + moveDirection * walkSpeed * Time.fixedDeltaTime);
+        // Alege viteza în funcție de starea de alergare
+        float speed = isRunning ? runSpeed : walkSpeed;
 
-        // Rotire doar dacă există mișcare
-        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        // Mișcă rigidbody-ul
+        Vector3 targetPosition = rb.position + moveDirection * speed * Time.fixedDeltaTime;
+        rb.MovePosition(targetPosition);
+
+        // Rotirea caracterului
+        if (moveDirection.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            visualTransform.rotation = Quaternion.Slerp(
+                visualTransform.rotation,
+                targetRotation,
+                Time.fixedDeltaTime * rotationSpeed);
+         }
+
+        // Animatii
+
+        if (moveDirection.magnitude != 0f)
+        {
+            animator.SetBool("IsWalking", true);
+
+        }
+        else
+        {
+            animator.SetBool("IsWalking", false);
+
+        }
+
+
+        if (moveDirection.magnitude != 0f & isRunning == true)
+        {
+            animator.SetBool("IsRunning", true);
+
+            animator.SetBool("IsWalking", false);
+
+        }
+        else
+        {
+            animator.SetBool("IsRunning", false);
+
+        }
     }
 }
