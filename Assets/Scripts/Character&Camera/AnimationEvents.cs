@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class AnimationEvents : MonoBehaviour
 {
-    [SerializeField]
-    private bool isAtacking;
+    public bool isAtacking {  get;private set; }
 private void OnAnimationEventActivateSwordCollision()
     {
         isAtacking = true;

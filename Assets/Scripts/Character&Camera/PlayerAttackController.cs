@@ -10,6 +10,9 @@ public class PlayerAttackController : MonoBehaviour
     private Animator animator; // Referință la Animator
     [SerializeField]
     private Rigidbody rb;
+
+
+
     void Start()
     {
         //obtinem rb ul din parinte
@@ -17,6 +20,9 @@ public class PlayerAttackController : MonoBehaviour
 
         // Obține referința la Animator de pe obiectul curent
         animator = GetComponent<Animator>();
+
+
+
     }
 
     void Update()
@@ -38,6 +44,7 @@ public class PlayerAttackController : MonoBehaviour
             animator.SetBool("IsAtacking", false);
             currentEnemy = null;
         }
+
     }
 
     // Găsește cel mai apropiat inamic în raza de atac
