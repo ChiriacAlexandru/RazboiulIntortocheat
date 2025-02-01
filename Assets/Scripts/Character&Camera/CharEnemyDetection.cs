@@ -35,7 +35,7 @@ public class PlayerFaceClosestEnemy : MonoBehaviour
             float angle = Quaternion.Angle(transform.rotation, lookRotation);
             if (angle < 1f)
             {
-                Debug.Log("Player is perfectly aligned with the enemy!");
+              //  Debug.Log("Player is perfectly aligned with the enemy!");
             }
         }
     }
