@@ -2,9 +2,11 @@
 
 public class PlayerFaceClosestEnemy : MonoBehaviour
 {
-    public string enemyTag = "Enemies"; // Tag-ul obiectelor inamice
-    public float detectionRadius = 10f; // Raza de detectare a inamicilor
-    public float rotationSpeed = 10f; // Viteza de rotație
+    private string enemyTag = "Enemies"; // Tag-ul obiectelor inamice
+    [SerializeField]
+    private float detectionRadius = 10f; // Raza de detectare a inamicilor
+    [SerializeField]
+    private float rotationSpeed = 10f; // Viteza de rotație
 
     void Update()
     {

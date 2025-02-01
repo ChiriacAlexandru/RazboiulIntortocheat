@@ -2,13 +2,19 @@
 
 public class PlayerAttackController : MonoBehaviour
 {
-    public string enemyTag = "Enemies"; // Tag-ul obiectelor inamice
-    public float attackRadius = 3f; // Raza de atac
+    [SerializeField]
+    private string enemyTag = "Enemies"; // Tag-ul obiectelor inamice
+    [SerializeField] 
+    private float attackRadius = 3f; // Raza de atac
     private GameObject currentEnemy; // Referință la inamicul curent
     private Animator animator; // Referință la Animator
-
+    [SerializeField]
+    private Rigidbody rb;
     void Start()
     {
+        //obtinem rb ul din parinte
+        rb = GetComponentInParent<Rigidbody>();
+
         // Obține referința la Animator de pe obiectul curent
         animator = GetComponent<Animator>();
     }
@@ -18,7 +24,7 @@ public class PlayerAttackController : MonoBehaviour
         // Găsește cel mai apropiat inamic în raza de atac
         GameObject closestEnemy = GetClosestEnemy();
 
-        if (closestEnemy != null)
+        if (closestEnemy != null && rb.linearVelocity == Vector3.zero)
         {
             // Salvează referința la inamicul curent
             currentEnemy = closestEnemy;
