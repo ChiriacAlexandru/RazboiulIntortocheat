@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AnimationEvents : MonoBehaviour
 {
-    public bool isAtacking {  get;private set; }
-private void OnAnimationEventActivateSwordCollision()
+    public bool isAtacking { get; private set; }
+    private void OnAnimationEventActivateSwordCollision()
     {
         isAtacking = true;
     }

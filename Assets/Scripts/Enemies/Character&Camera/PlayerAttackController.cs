@@ -4,25 +4,25 @@ public class PlayerAttackController : MonoBehaviour
 {
     [SerializeField]
     private string enemyTag = "Enemies"; // Tag-ul obiectelor inamice
-    [SerializeField] 
+    [SerializeField]
     private float attackRadius = 3f; // Raza de atac
     private GameObject currentEnemy; // Referință la inamicul curent
     private Animator animator; // Referință la Animator
     [SerializeField]
-    private Rigidbody rb;
-
-
+    private CharacterController characterController; // Referință la CharacterController
 
     void Start()
     {
-        //obtinem rb ul din parinte
-        rb = GetComponentInParent<Rigidbody>();
+        // Obține referința la CharacterController de pe obiectul părinte
+        characterController = GetComponentInParent<CharacterController>();
 
         // Obține referința la Animator de pe obiectul curent
         animator = GetComponent<Animator>();
 
-
-
+        if (characterController == null)
+        {
+            Debug.LogError("CharacterController nu a fost găsit pe obiectul părinte!");
+        }
     }
 
     void Update()
@@ -30,7 +30,8 @@ public class PlayerAttackController : MonoBehaviour
         // Găsește cel mai apropiat inamic în raza de atac
         GameObject closestEnemy = GetClosestEnemy();
 
-        if (closestEnemy != null && rb.linearVelocity == Vector3.zero)
+        // Verifică dacă există un inamic aproape și dacă personajul nu se mișcă
+        if (closestEnemy != null && characterController.velocity == Vector3.zero)
         {
             // Salvează referința la inamicul curent
             currentEnemy = closestEnemy;
@@ -44,7 +45,6 @@ public class PlayerAttackController : MonoBehaviour
             animator.SetBool("IsAtacking", false);
             currentEnemy = null;
         }
-
     }
 
     // Găsește cel mai apropiat inamic în raza de atac
