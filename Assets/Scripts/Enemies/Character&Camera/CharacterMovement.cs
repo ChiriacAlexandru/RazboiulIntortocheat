@@ -3,7 +3,7 @@
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Componente")]
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform visualTransform;
     [SerializeField] private CameraScript cameraScript;
     [SerializeField] private Animator animator;
@@ -27,9 +27,9 @@ public class CharacterMovement : MonoBehaviour
             Debug.Log("Mesh animator != exist");
         }
 
-        if (characterController == null)
+        if (rb == null)
         {
-            characterController = GetComponent<CharacterController>();
+            rb = GetComponent<Rigidbody>();
         }
     }
 
@@ -52,8 +52,8 @@ public class CharacterMovement : MonoBehaviour
         // Alege viteza în funcție de starea de alergare
         float speed = isRunning ? runSpeed : walkSpeed;
 
-        // Mișcă caracterul folosind CharacterController
-        characterController.Move(moveDirection * speed * Time.deltaTime);
+        // Mișcă caracterul folosind Rigidbody
+        rb.linearVelocity = new Vector3(moveDirection.x * speed, rb.linearVelocity.y, moveDirection.z * speed);
 
         // Rotirea caracterului
         if (moveDirection.magnitude > 0.1f)

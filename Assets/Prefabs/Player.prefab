@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 9154528647770828714}
   - component: {fileID: 5167144948014599685}
   - component: {fileID: 4406806734549212752}
-  - component: {fileID: 1933364433246677132}
   m_Layer: 0
   m_Name: Player
   m_TagString: PlayerArmy
@@ -48,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783558ca231513b479855dd2c61ca43d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 1933364433246677132}
+  characterController: {fileID: 0}
   visualTransform: {fileID: 4304212469970228830}
   cameraScript: {fileID: 8247481452056726673, guid: abddb711231cdf340ad9982a130e4150, type: 3}
   animator: {fileID: 4304212469980046416}
@@ -85,31 +84,6 @@ MonoBehaviour:
   regenAmount: 5
   regenInterval: 1
   regenDelay: 3
---- !u!143 &1933364433246677132
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3823742129646353301}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &4304212469970521428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -226,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyTag: Enemies
   attackRadius: 2.5
-  characterController: {fileID: 1933364433246677132}
+  characterController: {fileID: 0}
 --- !u!114 &164832923537959032
 MonoBehaviour:
   m_ObjectHideFlags: 0

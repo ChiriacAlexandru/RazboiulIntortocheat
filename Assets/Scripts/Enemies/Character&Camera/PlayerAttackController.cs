@@ -9,12 +9,12 @@ public class PlayerAttackController : MonoBehaviour
     private GameObject currentEnemy; // Referință la inamicul curent
     private Animator animator; // Referință la Animator
     [SerializeField]
-    private CharacterController characterController; // Referință la CharacterController
+    private Rigidbody characterController; // Referință la CharacterController
 
     void Start()
     {
         // Obține referința la CharacterController de pe obiectul părinte
-        characterController = GetComponentInParent<CharacterController>();
+        characterController = GetComponentInParent<Rigidbody>();
 
         // Obține referința la Animator de pe obiectul curent
         animator = GetComponent<Animator>();
@@ -31,7 +31,7 @@ public class PlayerAttackController : MonoBehaviour
         GameObject closestEnemy = GetClosestEnemy();
 
         // Verifică dacă există un inamic aproape și dacă personajul nu se mișcă
-        if (closestEnemy != null && characterController.velocity == Vector3.zero)
+        if (closestEnemy != null && characterController.linearVelocity == Vector3.zero)
         {
             // Salvează referința la inamicul curent
             currentEnemy = closestEnemy;
